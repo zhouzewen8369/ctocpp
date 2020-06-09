@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 //Created by zhouzw in 2020-6-9
 //From C to C++   
-//https://www.bilibili.com/video/BV1Pb411q7pn
+//https://www.bilibili.com/video/BV16t411h7bD
 
 //2.标准库，注释，条件编译  3.C++标准输入输出流iostream，名字空间namespace
 #if 0 //C++在线编译器 https://www.onlinegdb.com/online_c++_compiler
