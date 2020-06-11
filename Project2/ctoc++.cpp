@@ -83,7 +83,7 @@ int main() {
 }
 #endif
 //<fstream>文件流 ofstream,ifstream; <string>是c++的字符串处理头文件
-#if 1
+#if 0
 #include<cstdio>
 #include<iostream>
 #include<fstream>
@@ -104,5 +104,106 @@ int main() {
     IF.close();
 }
 #endif
-
 //C++中流的概念很重要，stream！！
+
+//引用变量，外号或小名；引用形参
+#if 0
+#include<cstdio>
+#include<iostream>
+#include<fstream>
+using namespace std;
+void swap0(int a, int b) {
+    int t = a;
+    a = b;
+    b = t;
+}
+void swap1(int* a, int* b) {    //指针  &放进函数里来
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+void swap2(int& a, int& b) {    //引用形参
+    int t = a;
+    a = b;
+    b = t;
+}
+void swap3(int a, int b) {      //这样要的还是形参的地址
+    int* pa = &a;
+    int* pb = &b;
+    int t = *pa;
+    a = *pb;
+    b = t;
+}
+
+int main() {
+    //引用变量
+    int A = 3;
+    int& a = A;
+    a = 5;
+    cout << A << endl;
+
+    //引用形参
+    int B = 7;      cout << A << "\t" << B << endl;
+    swap0(A, B);    cout << A << "\t" << B << endl;
+    swap1(&A, &B);  cout << A << "\t" << B << endl;    
+    swap2(A, B);    cout << A << "\t" << B << endl;
+    swap3(A, B);    cout << A << "\t" << B << endl;
+}
+#endif
+
+//默认形参；函数重载
+#if 0
+//默认形参，对形参设置默认值
+//add 三个数相加，两个已给定; print(str,n=1) n次打印str
+//函数重载，C++允许函数同名，只要其形参类型不同，系统自动进行判断
+//函数名+形参设定= 函数签名，返回类型不能作为区分函数的依据
+//int版add, double版add
+#include<cstdio>
+#include<iostream>
+#include<string>
+using namespace std;
+int add(int a, int b = 1, int c = 2) {
+    return(a + b + c);
+}
+double add(double a, double b = 1., double c = 2) {
+    return(a + b + c);
+}
+void print(string str, int n = 1) {
+    for (int i = 0; i < n; i++) {
+        cout << str << "\t";
+    }
+}
+int main() {
+    //int add
+    cout << add(3) << endl;
+    cout << add(3,5) << endl;
+    cout << add(3,5,7) << endl;
+    //n times print
+    string str = "zhou";
+    print(str);     cout << endl;
+    print(str, 3);  cout << endl;
+    //double add
+    cout << add(3.0, 5.6) << endl;
+    cout << add((double)3, 7.,double(5)) << endl; 
+}
+#endif
+//函数模板 template<typename = T>
+#if 1
+//用template关键字增加一个模板头，把数据类型变成类型模板参数
+#include<cstdio>
+#include<iostream>
+#include<string>
+using namespace std;
+
+template<typename T>
+T add(T a, T b = 1.7, T c = 2.) {
+    return(a + b + c);
+}
+int main() {
+    cout << add(5) << endl;
+    cout << add(5.) << endl;
+    cout << add((double)5) << endl;
+    cout << add<double>(5) << endl;
+    cout << add<string>("zhou","ZE","wen") << endl;
+}
+#endif
