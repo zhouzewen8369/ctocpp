@@ -188,7 +188,7 @@ int main() {
 }
 #endif
 //函数模板 template<typename = T>
-#if 1
+#if 0
 //用template关键字增加一个模板头，把数据类型变成类型模板参数
 #include<cstdio>
 #include<iostream>
@@ -205,5 +205,58 @@ int main() {
     cout << add((double)5) << endl;
     cout << add<double>(5) << endl;
     cout << add<string>("zhou","ZE","wen") << endl;
+}
+#endif
+//string类
+#if 0
+#include<cstdio>
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main() {
+//s.substr, s.size(), s[], s1+s2
+    string s1 = "zhouzw", s2 = "c++learn";
+    cout << s1.size() << endl
+        << s1.substr(1, 3) << endl
+        << s1 + " " + s2 << endl;
+    s1[0] = 'Z'; s1[4] = 'Z';
+    cout << s1 << endl;
+//s.find, s.insert
+    s1.insert(4, "bilibili");
+    cout << s1 << endl
+        << s1.find("li") << endl;
+    for (int i = 0; i < s2.size(); i++) {
+        cout << s2[i] << "_";
+    }
+    cout << endl;
+}
+#endif
+//vector<int> 类模板，实例化产生一个类
+#if 1
+#include<cstdio>
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+//v.push_back(), v.pop_back(), v.resize()
+void print(vector<int> v) {
+    for (int i = 0; i < v.size(); i++) {
+        cout << v[i] << "\t";
+    }
+    cout << endl;
+}
+int main() {
+    vector<int> v = { 1,2,3,4 };
+    v.push_back(49);    v.push_back(27);    print(v);
+    v.pop_back();    print(v);
+    v.resize(3);     print(v);
+
+    cout << "---------------------------------------" << endl;
+
+    vector<int> v1 = { };
+    v1.push_back(49);    v1.push_back(27);    print(v1);
+    v1.pop_back();    print(v1);
+    v1.resize(3);     print(v1);
 }
 #endif
