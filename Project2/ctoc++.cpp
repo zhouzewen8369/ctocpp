@@ -1,7 +1,9 @@
 #define _CRT_SECURE_NO_WARNINGS
-//Created by zhouzw in 2020-6-9
-//From C to C++   
-//https://www.bilibili.com/video/BV16t411h7bD
+/*
+Created by zhouzw in 2020-6-9
+From C to C++   
+https://www.bilibili.com/video/BV16t411h7bD
+*/
 
 //2.标准库，注释，条件编译  3.C++标准输入输出流iostream，名字空间namespace
 #if 0 //C++在线编译器 https://www.onlinegdb.com/online_c++_compiler
@@ -233,13 +235,13 @@ int main() {
 }
 #endif
 //vector<int> 类模板，实例化产生一个类
-#if 1
+#if 0
+//v.push_back(), v.pop_back(), v.resize()
 #include<cstdio>
 #include<iostream>
 #include<string>
 #include<vector>
 using namespace std;
-//v.push_back(), v.pop_back(), v.resize()
 void print(vector<int> v) {
     for (int i = 0; i < v.size(); i++) {
         cout << v[i] << "\t";
@@ -260,3 +262,98 @@ int main() {
     v1.resize(3);     print(v1);
 }
 #endif
+//复习指针
+#if 0 
+#include<cstdio>
+#include<iostream>
+#include<string>
+using namespace std;
+int main(){
+    int arr[] = { 1, 2, 3, 4 }; //注意格式 int arr[] = { };
+    int* p = arr, * q = p;
+    cout << p << "\t" << arr << "\t"
+        << &p[0] << "\t" << &arr[0] << "\n";
+    cout << *p << "\t" << arr[0] << "\t" 
+         << p[0] << "\t" << *arr << "\n";
+    p[1] = 6;
+    for (q = p + 4; p < q; p++) {
+        cout << *p << "\t";
+    }
+}
+
+
+#endif 
+//动态内存分配 new
+#if 0 
+/*  动态内存分配 new申请-delete释放
+    T *p = new T;
+    delete p;
+    T *p = new T[7];
+    delete[] p;
+*/
+#include<cstdio>
+#include<iostream>
+#include<string>
+using namespace std;
+int main() {
+    int n = 4;
+    int *p = new int[n];
+    for (int i = 0; i < n; i++) {
+        p[i] = 2 * i + 1;
+        cout << p[i] << "\t";
+    }
+    cout << endl;
+    char* s = (char*)p;
+    int n1 = n * sizeof(int) / sizeof(char);
+    s[0] = 'A';
+    for (int i = 0; i < n1; i++) {
+        s[i] = *s + i;
+        cout << s[i] << " ";
+    }
+    delete[] p;
+}
+#endif 
+//学生信息程序实现
+#if 1
+#include<cstdio>
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+struct stu {
+    string name;
+    float score = 0.;
+    void print() {
+        cout << name << "\t" << score << endl;
+    }
+};
+int main() {
+    #if 0
+    stu stu;
+    stu.name = "zhou";
+    stu.score = 80;
+    stu.print();
+    #else 
+    vector<stu> stus;
+    stu stu;
+    float sum = 0, max = 0, min = 100;
+    while (1) {
+        cout << "输入姓名、成绩" << endl;
+        cin >> stu.name >> stu.score;
+        if (stu.score < 0)  break;
+        stus.push_back(stu);
+        sum += stu.score;
+        if (stu.score > max) max = stu.score;
+        if (stu.score < min) min = stu.score;
+    }
+    cout << "姓名---成绩" << endl;
+    for (int i = 0; i < (int)stus.size(); i++) {
+        stus[i].print();
+    }
+    float average = sum / stus.size();
+    cout << "最高分:" << max
+        << ",最低分:" << min
+        << ",平均分:" << average << endl;
+    #endif
+}
+#endif 
