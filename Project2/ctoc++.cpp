@@ -314,13 +314,13 @@ int main() {
 }
 #endif 
 //学生信息程序实现
-#if 1
+#if 0
 #include<cstdio>
 #include<iostream>
 #include<string>
 #include<vector>
 using namespace std;
-struct stu {
+struct student {
     string name;
     float score = 0.;
     void print() {
@@ -329,13 +329,13 @@ struct stu {
 };
 int main() {
     #if 0
-    stu stu;
+    student stu;
     stu.name = "zhou";
     stu.score = 80;
     stu.print();
     #else 
-    vector<stu> stus;
-    stu stu;
+    vector<student> stus;
+    student stu;
     float sum = 0, max = 0, min = 100;
     while (1) {
         cout << "输入姓名、成绩" << endl;
@@ -355,5 +355,118 @@ int main() {
         << ",最低分:" << min
         << ",平均分:" << average << endl;
     #endif
+}
+#endif 
+//隐含指针this；class与struct，访问控制private与public(与外部的接口)；构造函数
+#if 0
+#include<cstdio>
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+//class里的成员默认是私有的private
+//struct里的成员默认是公开的public
+struct student {
+private://访问控制
+    string name;
+    float score = 0.;
+public: //接口
+    student() { //默认构造函数，函数名和类名相同，不带参数
+        cout << "构造函数" << endl;
+    }
+    string get_name() { return name; }
+    float get_score() { return score; }
+    void set_name(string nm) { name = nm; }
+    void set_score(float s) { score = s; }
+    void print() {
+        //隐含this指针 
+        cout << this->name << "\t" << this->score << endl;
+    }
+    void print1() {
+        //隐含this指针 
+        cout << get_name() << "\t" << get_score() << endl;
+    }
+};
+int main() {
+    student stu;
+    //stu.name = "zhou";
+    //stu.score = 77;
+    stu.set_name("zzw");
+    stu.set_score(88.);
+    stu.print();    //print(&stu)
+    stu.print1();
+    cout << stu.get_name() << "-----" << stu.get_score() << endl;
+}
+#endif
+//运算符重载:operator<<,operator>>,friend友元函数   学生信息输入、输出
+#if 0
+#include<cstdio>
+#include<iostream>
+#include<string>
+using namespace std;
+class student {
+    string name;
+    float score=0.;
+
+    //friend 友元函数！！
+    friend ostream& operator<<(ostream& o, student s);
+    friend istream& operator>>(istream& in, student& s);
+
+
+};
+
+ostream& operator<<(ostream& o, student s) {  
+    cout << s.name << "\t" << s.score << endl;
+    return o;
+}
+istream& operator>>(istream& in, student& s) {  //引用类型student& s，不能用值参数student s ！！
+    in >> s.name >> s.score;
+    return in;
+}
+
+int main() {
+    student stu;
+    cin >> stu;     //operator>>(cin, stu)
+    cout << stu;    //operator>>(cout, stu) 
+}
+#endif
+//运算符重载:operator[],operator+    数组下标访问、对应相加
+#if 1
+#include<cstdio>
+#include<iostream>
+#include<string>
+using namespace std;
+class point {
+    double x, y;
+public:
+    point(double x_, double y_) {
+        x = x_; y = y_;
+    }
+    double operator[](int i) const { //const函数
+        if (i == 0) return x;
+        else if (i == 1) return y;
+        else throw "错误"; //抛出异常
+    }
+    double& operator[](int i) {
+        if (i == 0) return x;
+        else if (i == 1) return y;
+        else throw "错误";
+    }
+    /*point operator+(const point b) {
+        return point(x + b[0], y + b[1]);
+    }*/
+};
+point operator+(const point a, const point b) {
+    return point(a[0] + b[0], a[1] + b[1]);
+}
+int main() {
+    point p1(3.5, 7.9);
+    cout << p1[0] << "\t" << p1[1] << endl;
+    p1[0] = 8.8; p1[1] = 10.;
+    cout << p1[0] << "\t" << p1[1] << endl; //p.operator[](0)
+    point p2(2, 1);
+    point p3 = p1 + p2; //operator+(p1,p2)
+    //point p3 = p1 + p2; //p1.operator+(p2)
+    cout << p3[0] << "\t" << p3[1] << endl;
 }
 #endif 
