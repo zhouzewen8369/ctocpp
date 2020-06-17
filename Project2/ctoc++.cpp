@@ -189,7 +189,7 @@ int main() {
     cout << add((double)3, 7.,double(5)) << endl; 
 }
 #endif
-//函数模板 template<typename = T>
+//函数模板 template<typename T>
 #if 0
 //用template关键字增加一个模板头，把数据类型变成类型模板参数
 #include<cstdio>
@@ -234,7 +234,7 @@ int main() {
     cout << endl;
 }
 #endif
-//vector<int> 类模板，实例化产生一个类
+//vector<int> vector类 对比最后的 Vector类模板
 #if 0
 //v.push_back(), v.pop_back(), v.resize()
 #include<cstdio>
@@ -411,8 +411,6 @@ class student {
     //friend 友元函数！！
     friend ostream& operator<<(ostream& o, student s);
     friend istream& operator>>(istream& in, student& s);
-
-
 };
 
 ostream& operator<<(ostream& o, student s) {  
@@ -431,7 +429,7 @@ int main() {
 }
 #endif
 //运算符重载:operator[],operator+    数组下标访问、对应相加
-#if 1
+#if 0
 #include<cstdio>
 #include<iostream>
 #include<string>
@@ -462,11 +460,131 @@ point operator+(const point a, const point b) {
 int main() {
     point p1(3.5, 7.9);
     cout << p1[0] << "\t" << p1[1] << endl;
+
     p1[0] = 8.8; p1[1] = 10.;
     cout << p1[0] << "\t" << p1[1] << endl; //p.operator[](0)
+
     point p2(2, 1);
     point p3 = p1 + p2; //operator+(p1,p2)
     //point p3 = p1 + p2; //p1.operator+(p2)
     cout << p3[0] << "\t" << p3[1] << endl;
 }
 #endif 
+
+//类模板 Vector
+#if 1
+#include<cstdio>
+#include<iostream>
+#include<string>
+using namespace std;
+
+class student {
+    string name;
+    float score = 0.;
+public:
+    student(string n = "zz", float s = 0) {
+        name = n; score = s;
+    }
+    //friend 友元函数！！
+    friend ostream& operator<<(ostream& o, student s);
+};
+ostream& operator<<(ostream& o, student s) {
+    cout << s.name << "\t" << s.score << endl;
+    return o;
+}
+
+template <typename T>
+class Vector {
+    int n;
+    int capacity;
+    T* data;
+public:
+    Vector(int cap=3) {
+        data = new T[cap];
+        if (data == 0) { //分配失败
+            n = 0; data = 0;
+        }
+        capacity = cap;
+        n = 0;
+    }
+    void push_back(T e) { //element
+        if (n == capacity) {
+            cout << "增加容量\n";
+            T* p = new T[2 * capacity];
+            if (p) {
+                for (int i = 0; i < n; i++) {
+                    p[i] = data[i];
+                }
+                delete[] data;
+                data = p;
+                capacity = 2 * capacity;
+            }
+            else { return; }
+        }
+        data[n] = e;
+        n++;
+    }
+    int size() {
+        return n;
+    }
+    T operator[](int i) const {
+        if (i < 0 || i >= n) throw"下标非法";
+        return data[i];
+    }
+
+};
+int main() {
+#if 0
+#if 1
+    Vector<int> v;
+    v.push_back(0);
+    v.push_back(1);
+    v.push_back(2);
+    for (int i = 0; i < v.size(); i++) {
+        cout << v[i] << '\t';
+    }   cout << endl;
+    v.push_back(3);
+    v.push_back(4);
+    v.push_back(5);
+    for (int i = 0; i < v.size(); i++) {
+        cout << v[i] << '\t';
+    }   cout << endl;
+    v.push_back(6);
+    for (int i = 0; i < v.size(); i++) {
+        cout << v[i] << '\t';
+    }   cout << endl;
+#else
+    Vector<string> v; //类模板 实例化
+    v.push_back("h");
+    v.push_back("e");
+    v.push_back("l");
+    for (int i = 0; i < v.size(); i++) {
+        cout << v[i] << '\t';
+    }   cout << endl;
+    v.push_back("l");
+    v.push_back("o");
+    v.push_back("z");
+    for (int i = 0; i < v.size(); i++) {
+        cout << v[i] << '\t';
+    }   cout << endl;
+    v.push_back("z");
+    for (int i = 0; i < v.size(); i++) {
+        cout << v[i] << '\t';
+    }   cout << endl;
+#endif
+#else
+    Vector<student> v; //类模板 实例化
+    v.push_back(student());
+    v.push_back(student("xu", 65.));
+    v.push_back(student("zhang", 85.));
+    for (int i = 0; i < v.size(); i++) {
+        cout << v[i];
+    }   
+    v.push_back(student("wang", 35.));
+    v.push_back(student("jia", 15.));
+    for (int i = 0; i < v.size(); i++) {
+        cout << v[i];
+    }   
+#endif
+}
+#endif
